@@ -22,6 +22,7 @@
 
 #include "binaryen-c.h"
 #include "cfg/Relooper.h"
+#include "ir/branch-hints.h"
 #include "ir/utils.h"
 #include "parser/wat-parser.h"
 #include "pass.h"
@@ -6141,6 +6142,26 @@ void BinaryenFunctionSetDebugLocation(BinaryenFunctionRef func,
   loc.lineNumber = lineNumber;
   loc.columnNumber = columnNumber;
   ((Function*)func)->debugLocations[(Expression*)expr] = loc;
+}
+
+void BinaryenFunctionSetBranchHint(BinaryenFunctionRef func,
+                                   BinaryenExpressionRef expr,
+                                   int hint) {
+  auto* function = (Function*)func;
+  auto* expression = (Expression*)expr;
+  if (hint < 0) {
+    BranchHints::clear(expression, function);
+    return;
+  }
+  BranchHints::set(expression, hint != 0, function);
+}
+
+int BinaryenFunctionGetBranchHint(BinaryenFunctionRef func,
+                                  BinaryenExpressionRef expr) {
+  if (auto likely = BranchHints::get((Expression*)expr, (Function*)func)) {
+    return *likely ? 1 : 0;
+  }
+  return -1;
 }
 
 //

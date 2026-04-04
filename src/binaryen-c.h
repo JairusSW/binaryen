@@ -3383,6 +3383,24 @@ BINARYEN_API void BinaryenFunctionSetDebugLocation(BinaryenFunctionRef func,
                                                    BinaryenIndex lineNumber,
                                                    BinaryenIndex columnNumber);
 
+// Sets a branch hint on an expression within a function.
+// |hint| values:
+//   -1: clear the hint
+//    0: hint unlikely / false
+//    1: hint likely / true
+// The expression must belong to the specified function.
+BINARYEN_API void BinaryenFunctionSetBranchHint(BinaryenFunctionRef func,
+                                                BinaryenExpressionRef expr,
+                                                int hint);
+
+// Gets the branch hint on an expression within a function.
+// Return values:
+//   -1: no hint
+//    0: hint unlikely / false
+//    1: hint likely / true
+BINARYEN_API int BinaryenFunctionGetBranchHint(BinaryenFunctionRef func,
+                                               BinaryenExpressionRef expr);
+
 //
 // ========== Table Operations ==========
 //

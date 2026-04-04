@@ -2969,6 +2969,12 @@ function wrapModule(module, self = {}) {
   self['setDebugLocation'] = function(func, expr, fileIndex, lineNumber, columnNumber) {
     return Module['_BinaryenFunctionSetDebugLocation'](func, expr, fileIndex, lineNumber, columnNumber);
   };
+  self['setBranchHint'] = function(func, expr, hint) {
+    return Module['_BinaryenFunctionSetBranchHint'](func, expr, hint);
+  };
+  self['getBranchHint'] = function(func, expr) {
+    return Module['_BinaryenFunctionGetBranchHint'](func, expr);
+  };
   self['copyExpression'] = function(expr) {
     return Module['_BinaryenExpressionCopy'](expr, module);
   };
